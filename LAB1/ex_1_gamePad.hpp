@@ -107,7 +107,7 @@ void shutdown(GLFWwindow* window)
 }
 
 
-//obsluga wejscia
+//obsluga wejscia GAMEPADA! -> //https://www.youtube.com/watch?v=mx0IUbxAQ34
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
