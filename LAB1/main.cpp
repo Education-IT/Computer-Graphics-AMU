@@ -4,7 +4,7 @@
 
 #include "Shader_Loader.h"
 #include "Render_Utils.h"
-#include "ex_2_1a.hpp"
+#include "ex_1_8.hpp"
 
 
 
@@ -30,7 +30,7 @@ int main(int argc, char ** argv)
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window); //Następnie mówimy GLFW, aby kontekst naszego okna był głównym kontekstem bieżącego wątku. Przypisujemy dane oknow do danego wątku!
+    glfwMakeContextCurrent(window); //Następnie mówimy GLFW, aby kontekst naszego okna był głównym kontekstem bieżącego wątku. Przypisujemy dane okno do danego wątku!
 
     // ladowanie OpenGL za pomoca glew
     glewInit();

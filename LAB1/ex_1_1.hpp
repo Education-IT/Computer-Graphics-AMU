@@ -7,9 +7,9 @@
 #include "Render_Utils.h"
 float r = 0.0;
 float g = 0.0;
-float b = 0.0;  
+float b = 0.0;  //zmienne globalne!
 
-// funkcja renderujaca scene - za ka¿d¹ pêtl¹ renderLoop - to nam tworzy to co zobaczymy na ekranie.
+// funkcja renderujaca scene - wykonuje siê za ka¿d¹ pêtl¹ renderLoop - to nam tworzy to co zobaczymy na ekranie - ukazuje nam za kazdym razem jedn¹ klatkê obrazu!
 void renderScene(GLFWwindow* window)
 {
     //if (glfwGetTime() >= 1) {  // glfwGetTime() -> zwraca wartoœæ float czasu od zainicjalizowania okna lub ustawienia czasu dla okna.
@@ -40,8 +40,8 @@ void renderScene(GLFWwindow* window)
     }
     
     // ZADANIE: Przesledz kod i komentarze
-    // ZADANIE: Zmien kolor tla sceny, przyjmujac zmiennoprzecinkowy standard RGBA
-    glClearColor(r, g, b, 1.0f); // RGBa - zmieniamy kolor t³a - zmiennoprzecnkowe wartoœci od 0 do 1 - jasnoœæ jakim œwieci dany kolor
+    // ZADANIE: Zmien kolor tla sceny, przyjmujac zmiennoprzecinkowy standard RGBA - A - od "alpha channel" - dodatkowy kana³ definiuj¹cy przezroczystoœæ.
+    glClearColor(r, g, b, 1.0f); // RGBa - zmieniamy kolor t³a - zmiennoprzecnkowe wartoœci od 0 do 1 - jasnoœæ jakim œwieci dany kolor - protip - znajdz w interneci interesuj¹cy Ciê koplor i nastêpnie wszytskie jego wartoœci podziel przez 255 i to co uzyskasz mo¿esz tu wpisaæ! :)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glfwSwapBuffers(window); // Powinno byc wywolane po kazdej klatce - tutaj dokonujemy zamiany buforów. - double buffering - by unikn¹c migotania.
 }
@@ -52,7 +52,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void init(GLFWwindow* window) { // Tutaj umieszczamy takie funkcje które wydarz¹ siê tylko raz! - przy uruchomieniu aplikacji!
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    //powy¿sza funkcja - ustawia, ¿e FB-Size_callback - zostanie wywo³ana przy zmianie rozmaiaru okna - WINDOW* - która to informuje OpnegGl o zmianie rozmiaru ekranu za pomoc¹ glViewPort
+    //powy¿sza funkcja - ustawia, ¿e FrameBuffer-Size_callback - zostanie wywo³ana przy zmianie rozmaiaru okna - WINDOW* - która to informuje OpnegGl o zmianie rozmiaru ekranu za pomoc¹ glViewPort
 }
 
 void shutdown(GLFWwindow* window) //Tutaj umieszczamy takie funckje które wydarz¹ siê tylko raz - przy wy³¹czeniu aplikacji.
@@ -70,7 +70,7 @@ void processInput(GLFWwindow* window)
 void renderLoop(GLFWwindow* window) { //pêtla renderowania. Sprawdza Input - nastêpnie renderuje scene i jak jakieœ wydarzenie mia³o miejsce to na nie reaguje.
     while (!glfwWindowShouldClose(window))
     {
-        processInput(window); //przetowrzenie danych wejœcia - obs³uga klawiatura - ESC - (mozliwia równie¿ obs³uga myszy, joysticka i gamepada)
+        processInput(window); //przetowrzenie danych wejœcia - obs³uga klawiatura - ESC - (mozliwia równie¿ obs³uga myszy, joysticka i gamepada dziêki bibliotece GLFW)
 
         renderScene(window); // funckja odpowiedzialna za odœwierzenie sceny - jedna pêtla = jedna klatka.
         glfwPollEvents(); //sprawdza czy s¹ jakieœ eventy do obs³u¿enia / zadania do wykonania np>; sprawdza czy rozmiar okna zosta³ zmieniony

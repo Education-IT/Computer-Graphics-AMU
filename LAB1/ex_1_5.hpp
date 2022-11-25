@@ -28,8 +28,8 @@ void renderScene(GLFWwindow* window)
 	// ! Macierz translation jest definiowana wierszowo dla poprawy czytelnosci. OpenGL i GLM domyslnie stosuje macierze kolumnowe, dlatego musimy ja transponowac !
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	glm::mat4 rotation =
-	{ cos(time),-sin(time),0,0.7,
-	  sin(time),cos(time),0,0.5,
+	{ cos(time),-sin(time),0,0.7, 
+	  sin(time),cos(time),0,0.5, 
 	  0,0,1,0,
 	  0,0,0,1 };
 	rotation = glm::transpose(rotation);
@@ -48,14 +48,13 @@ void renderScene(GLFWwindow* window)
 	  0,0,0,1 };
 	translation = glm::transpose(translation);
 
-	//glm::mat4 rotationAndTranslation = rotationtranslation * rotation;
+	// SK£ADANIE MACIERZY
+	//glm::mat4 rotationAndTranslation = rotationtranslation * rotation; 
+
 	// ZADANIE: Narysuj dwa czworokaty, jeden ruszajacy sie, drugi obracajacy sie 
 	// Do rysowania ruszajacego sie czworokatu mozesz uzyc kodu z poprzedniego zadania, zmodyfikuj tylko macierz translacji, zeby byly obok siebie, nie jeden na drugim
 	// Uzyj zmiennej "time" do zdefiniowania takiej macierzy rotacji, aby czworokat obracal sie wokol srodka (znajdz odpowiednia macierz 4x4 w internecie)
 	// Kat obrotu podajemy w radianach
-
-
-    
 	glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&rotation);
 
 	// Uzyj kodu z poprzednich cwiczen do narysowania czworokata
@@ -88,15 +87,15 @@ void init(GLFWwindow* window) {
 		0,1,2,
 		0,2,3
 	};
-	quadVAO = Core::initVAOIndexed(tab, indx, 6, 4, 6);
-	quadVAO2 = Core::initVAOIndexed(tab, indx, 6, 4, 6);
+	quadVAO = Core::initVAOIndexed(tab, indx, 4, 4, 6);
+	quadVAO2 = Core::initVAOIndexed(tab, indx, 4, 4, 6);
 
 
 }
 
 void shutdown(GLFWwindow* window)
 {
-    shaderLoader.DeleteProgram(program);
+    shaderLoader.DeleteProgram(program); // !!!
 }
 
 

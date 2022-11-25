@@ -29,6 +29,9 @@ void renderScene(GLFWwindow* window)
     // 
     // Stworz taka macierz transformacji, ktora powoduje ze czworokat przesuwa sie w gore i w dol ekranu, jednoczesnie obracajac sie.
     // Wyslij stworzona macierz do GPU za pomoca funkcji glUniformMatrix4fv zamiast macierzy "translation" i "rotation" z poprzednich zadan
+    
+    // TEN SAM EFEKT MO¯NA UZYSKAÆ W D£U¯SZY SPOSÓB - SK£ADAJ¥C 2 MACIERZE TRANSFORMACJI!
+    // £ATWIEJ ROBIÆ TYM NIEZAKOMENTOWANYM SPOSOBEM!
     /*glm::mat4 rotation =
     { cos(time),-sin(time),0,0,
       sin(time),cos(time),0,0,
@@ -38,7 +41,7 @@ void renderScene(GLFWwindow* window)
     
     glm::mat4 translation =
     { 1,0,0,0,
-      0,1,0,sin(time) / 2, //wczeœniej by³o tu 0!!!!
+      0,1,0,sin(time) / 2, 
       0,0,1,0,
       0,0,0,1 };
     translation = glm::transpose(translation);
@@ -54,6 +57,7 @@ void renderScene(GLFWwindow* window)
       0,0,1,0,
       0,0,0,1 };
     rotation = glm::transpose(rotation);
+
     glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&rotation);
     Core::drawVAOIndexed(quadVAO, 6);
     glUseProgram(0);
@@ -82,7 +86,7 @@ void init(GLFWwindow* window) {
         0,1,2,
         0,2,3
     };
-    quadVAO = Core::initVAOIndexed(tab, indx, 6, 4, 6);
+    quadVAO = Core::initVAOIndexed(tab, indx, 4, 4, 6);
 }
 
 void shutdown(GLFWwindow* window)

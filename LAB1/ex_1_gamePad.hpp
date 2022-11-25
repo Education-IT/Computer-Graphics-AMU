@@ -12,8 +12,8 @@ GLuint quadVAO;
 GLuint quadVAO2;
 
 Core::Shader_Loader shaderLoader;
-float transA = 0;
-float transB = 0;
+float transX = 0;
+float transY = 0;
 float rotate = 0;
 float scale = 1;
 float triger = 0;
@@ -58,8 +58,8 @@ void renderScene(GLFWwindow* window)
 	// ! Macierz translation jest definiowana wierszowo dla poprawy czytelnosci. OpenGL i GLM domyslnie stosuje macierze kolumnowe, dlatego musimy ja transponowac !
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	glm::mat4 rotation =
-	{scale* cos(rotate),scale*-sin(rotate),0,transA,
-	 scale*sin(rotate),scale*cos(rotate),0,transB,
+	{scale* cos(rotate),scale*-sin(rotate),0,transX,
+	 scale*sin(rotate),scale*cos(rotate),0,transY,
 	  0,0,1,0,
 	  0,0,0,1 };
 	rotation = glm::transpose(rotation);
@@ -117,6 +117,8 @@ void processInput(GLFWwindow* window)
 	int axesCount;
 	const float *axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axesCount);
 	
+	//Specjalny algorytm przyspieszaj¹cy rotacje kwadratu
+	//musi obs³u¿yæ powy¿szy dzia³anie mimi to, ¿e triger nie aktywny zawsze zwraca -1 i równie¿ w po³owie mocy przyjmuje wartoœæ 0!
 	triger = axes[4];
 	if (triger == -1) {
 		triger = 1;
@@ -131,8 +133,8 @@ void processInput(GLFWwindow* window)
 		triger = 2 + triger;
 	}
 
-	transA = transA + 0.001 * axes[0];
-	transB = transB - 0.001 * axes[1];
+	transX = transX + 0.001 * axes[0];
+	transY = transY - 0.001 * axes[1];
 	rotate = rotate - 0.005 * axes[2]*triger;
 	
 

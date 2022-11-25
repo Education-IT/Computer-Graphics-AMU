@@ -19,7 +19,7 @@ void renderScene(GLFWwindow* window)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Zmienna "time" przechowuje czas ktory uplynal od uruchomienia aplikacji
-	float time = glfwGetTime(); //glfwSetTime(0);
+	float time = glfwGetTime(); //glfwSetTime(0); <- ustawienie czasu - zmiana liczby od której liczy siê czas trwania okna
 
 	glUseProgram(program);
 
@@ -29,16 +29,21 @@ void renderScene(GLFWwindow* window)
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	
 	// https://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji
-	glm::mat4 translation =
-	{ 1,0,0,0,
-	  0,1,0,sin(time)/2,
-	  0,0,1,0,
-	  0,0,0,1 };
-	translation = glm::transpose(translation); 
+	glm::mat4 translation =  //deklaracja macierzy 4*4 translacja = przesuniêcie wzglêdem osi XYZ.
+	{ 1,0,0,0,           //x
+	  0,1,0,sin(time)/2, //y
+	  0,0,1,0,			 //z
+	  0,0,0,1 };		 
+	translation = glm::transpose(translation);  //MUSIMY STRANSPONOWAÆ!
 
-	
-	
-	
+	//PRZYK£AD PONI¯SZY MA NIE DZIA£AÆ - to tylko przyk³ad!
+	/* glm::mat4 scale = // macierz skalowania - niezale¿nie wykonujemy skalowanie wzglêdem ka¿dej z osi
+	{ x,0,0,0,           // przyjmuj¹c odpowiedni wspó³czynnik dla ka¿dej z nich. 
+	  0,y,0,0,           // XYZ - wspó³czynniki skalowania wzd³u¿ osi X, Y oraz Z
+	  0,0,z,0,			 
+	  0,0,0,1 };
+    scale = glm::transponse(scale); 
+	*/
 
 	// ZADANIE: Narysuj ruszajacy sie czworokat
 	// 
@@ -46,7 +51,8 @@ void renderScene(GLFWwindow* window)
 	// Wykorzystaj funkcje sinus: sin(float x)
 
 	// glUniformMatrix4fv przekazuje macierz "translation" do GPU i powiazuje ja w shaderze ze zmienna typu mat4 o nazwie "transformation"
-	// Shader uzywa tej macierzy to transformacji wierzcholkow podczas renderowania
+	// Shader uzywa tej macierzy do transformacji wierzcholkow podczas renderowania
+
 	glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&translation);
 
 	// Uzyj kodu z poprzednich cwiczen do narysowania czworokata
@@ -74,10 +80,10 @@ void init(GLFWwindow* window) {
 	};
 
 	const unsigned int indx[]{
-		0,1,2,
-		0,2,3
-	};
-	quadVAO = Core::initVAOIndexed(tab, indx, 6, 4, 6);
+		0,1,2, //ideksujemy wierzcho³ki od 0! Pamiêtaj - zachowaj zasadê ¿e 
+		0,2,3 //OpenGL ³¹czy wierzcho³ki w kolejnoœci
+	};		 //odwrotnej do wskazówek zegara.
+	quadVAO = Core::initVAOIndexed(tab, indx, 4, 4, 6);
 }
 
 void shutdown(GLFWwindow* window)

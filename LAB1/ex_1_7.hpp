@@ -16,8 +16,8 @@ GLuint quadVAO;
 Core::Shader_Loader shaderLoader;
 
 float aa, bb,cc = 0.0f;
-glm::vec3 quadPos;
-std::vector<glm::vec3> quadsPositions;
+glm::vec3 quadPos; // tworzymy wektor którego bêda cechowac 3 zmienne XYZ
+//std::vector<glm::vec3> quadsPositions;
 
 void renderScene(GLFWwindow* window)
 {
@@ -27,23 +27,20 @@ void renderScene(GLFWwindow* window)
 	float time = glfwGetTime();
 
     glUseProgram(program);
-    
-    glm::vec3 quadPos = glm::vec3(aa, bb, cc);
-   // glm::mat4 transformation = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f,0.1f,0.0f));
-    glm::mat4 transformation = glm::mat4(1.0f);
+   //http://www.c-jump.com/bcc/common/Talk3/Math/GLM/GLM.html
+   quadPos = glm::vec3(aa, bb, cc);
+   // glm::mat4 transformation = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f,0.1f,0.0f));//
+    glm::mat4 transformation(1.0f); //tworzymy macierz identycznoœciow¹ 4*4 (jedynki po przek¹tnych)
 
-    glm::mat4 trans = glm::translate(transformation, quadPos);
+    glm::mat4 trans = glm::translate(transformation, quadPos); //robimy translacje na macierzy identycznosciowej transformation, bior¹c pod uwagê wartoœci wektora)
 
-  /*  glm::mat4 rotate = glm::mat4(1.0f);
-    transformation = glm::translate(transformation, glm::vec3(0.0f, sin(time)/2, 0.0f));
-    rotate = glm::rotate(rotate, time, glm::vec3(0, 0, 1));
-    glm::mat4 transRot = transformation * rotate * trans;
-    glm::mat4 rotrotate = glm::rotate(rotate, time, glm::vec3(0, 0, 1));ate = glm::mat4(1.0f);
-    
-    */
+   // glm::mat4 rotate(1.0f); //identycznoœciowa macierz 
+   // transformation = glm::translate(transformation, glm::vec3(0.0f, sin(time)/2, 0.0f));//
+    //rotate = glm::rotate(rotate, time, glm::vec3(0, 0, 1)); // argumenty(tablica, Wartoœæ K¹ta o jak¹ bêdzie zachodziæ rotacja, wektor3(tam gdzie 1 - to na tej osi bêdziemy dokonywaæ rotacje. Mo¿na te¿ na wszystkich na raz ;) )
+    //glm::mat4 transRot = transformation * rotate; //* trans; //sk³adanie macierzy
     
     
-    glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&trans);
+    glUniformMatrix4fv(glGetUniformLocation(program, "transformation"), 1, GL_FALSE, (float*)&trans); //transRot
     Core::drawVAOIndexed(quadVAO, 6);
 
     glUseProgram(0);

@@ -8,14 +8,14 @@
 
 GLuint program; // Shader ID
 
-GLuint quadVAO;
+GLuint quadVAO; 
 GLuint rombVAO;
 
 Core::Shader_Loader shaderLoader;
 
 // W tym programie bêdziemy korzystaæ z indeksownia
 // Poniewa¿ tworzenie ró¿nego rodzaju kszta³tów bêdzie bardzo nieefektywne stosujac same punkty. Poniewa¿ punkty bêd¹ siê niejednokrotnie powielaæ! REDUNDANCJA DANCYH/PAMIÊCI!
-// Dlatego te¿ zdecydowanie lepiej równie¿ utworzyæ specjaln¹ tablciê ideksów - pokazuj¹c¹ jakie punkty tworz¹ jeden trójk¹t :) mocno to oszczêdza iloœæ zajmowanego miesjca w pamiêci.
+// Dlatego te¿ zdecydowanie lepiej równie¿ utworzyæ specjaln¹ tablicê ideksów - pokazuj¹c¹ jakie punkty tworz¹ jeden trójk¹t :) mocno to oszczêdza iloœæ zajmowanego miesjca w pamiêci. Indeksujemy nasze punkty od 0!
 
 
 void renderScene(GLFWwindow* window)
@@ -23,14 +23,12 @@ void renderScene(GLFWwindow* window)
     glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Aktywowanie shadera
-    glUseProgram(program);
-
+    
+    glUseProgram(program); // Aktywowanie shadera
     //wywolaj funkcje drawVAOIndexed na quadVAO 
-    Core::drawVAOIndexed(quadVAO, 6);
+    Core::drawVAOIndexed(quadVAO, 6);//argumemty(ID VAO , ileWierchDoNarysowania=iloœæ Indeksów)
     Core::drawVAOIndexed(rombVAO, 6);
-    // Wylaczenie shadera
-    glUseProgram(0);
+    glUseProgram(0); // Wylaczenie shadera
 
     glfwSwapBuffers(window);
 }
@@ -53,10 +51,10 @@ void init(GLFWwindow* window) {
     };
 
     const unsigned int indx[]{
-        0,1,3,
+        0,1,3, //indeksujemy nasze punkty od zera!
         1,2,3
     };
-    quadVAO = Core::initVAOIndexed(tab,indx,6,4,6);
+    quadVAO = Core::initVAOIndexed(tab,indx,4,4,6); //argumenty(tablicaWierzch , tablicaIndeksów, IloœæWierz w 1Tablicy, 4(liczby okreœlaj¹ce punkt/wierzch) , iloœæIndeksów w 2Tablicy) UWAGA! - jeœli chodzi o iloœæ wierzcho³ków to jest to zawsze iloœæ dos³ownych wiechrzo³ków jakie widzi komputer! Czyli Prostok¹t - dla komputera dwa trójk¹ty - kazdy po 3 wierzcho³ki - razem maj¹ 6 wierzcho³ków!
 
     const float rombTab[]{
         0.0f, 0.7f, 0.0f, 1.0f,
@@ -65,11 +63,11 @@ void init(GLFWwindow* window) {
         0.5f, 0.5f, 0.0f, 1.0f
     };
 
-    const unsigned int rombIndex[] = {
-        0,1,2,
-        2,3,0
-    };
-    rombVAO = Core::initVAOIndexed(rombTab, rombIndex, 6, 4, 6);
+    const unsigned int rombIndex[] = { // Kolejnoœæ punktów w tablicy jest równie¿ istotna!
+        0,1,2,    //Dziêki tej kolejnoœci OpenGL okreœla orientacjê œcian!
+        2,3,0     //Domyœlnie punkty powinny byæ zorientowane w kierunku przeciwnym do ruchu wskazówek zegara!
+    };//indeksujemy nasze punkty od zera!
+    rombVAO = Core::initVAOIndexed(rombTab, rombIndex, 4, 4, 6);
 
 }
 
