@@ -18,7 +18,6 @@ Core::Shader_Loader shaderLoader;
 float xx, yy = 0.0f;
 glm::vec3 quadPos;
 
-
 void renderScene(GLFWwindow* window)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
