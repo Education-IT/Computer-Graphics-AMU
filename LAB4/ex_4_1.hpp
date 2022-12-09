@@ -25,6 +25,7 @@ Core::RenderContext sphereContext;
 Core::RenderContext asteroida;
 Core::RenderContext ship2;
 Core::RenderContext spaceship;
+Core::RenderContext Saturn;
 
 glm::vec3 cameraPos = glm::vec3(-4.f, 0, 0);
 glm::vec3 cameraDir = glm::vec3(1.f, 0.f, 0.f);
@@ -73,7 +74,7 @@ glm::mat4 createPerspectiveMatrix()
 {
 	
 	glm::mat4 perspectiveMatrix;
-	float n = 0.3;
+	float n = 0.001;
 	float f = 70.;
 	float a1 = glm::min(aspectRatio, 1.f);
 	float a2 = glm::min(1 / aspectRatio, 1.f);
@@ -138,12 +139,15 @@ void renderScene(GLFWwindow* window)
 	
 	
 	glUseProgram(program);
-	glDepthMask(GL_FALSE);
-	drawObjectColor(sphereContext, glm::eulerAngleZ(time / 4) * glm::translate(glm::vec3(0, 6.f, -7.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
-	drawObjectColor(sphereContext, glm::eulerAngleY(time / 5) * glm::translate(glm::vec3(0, -6.f, 5.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
-	drawObjectColor(sphereContext, glm::eulerAngleX(time / 6) * glm::translate(glm::vec3(15, 4.f, 4.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
-	drawObjectColor(sphereContext, glm::eulerAngleX(time / 2) * glm::translate(glm::vec3(10, -4.f, 6.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
-	glDepthMask(GL_TRUE);
+	drawObjectColor(sphereContext, glm::translate(glm::vec3(0, 6.f, -7.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawObjectColor(sphereContext, glm::translate(glm::vec3(0, -6.f, 5.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawObjectColor(sphereContext, glm::translate(glm::vec3(15, 4.f, 4.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
+	glClear(GL_DEPTH_BUFFER_BIT);
+	drawObjectColor(sphereContext, glm::translate(glm::vec3(10, -4.f, 6.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 1, 1));
+	glClear(GL_DEPTH_BUFFER_BIT);
+	
 																									
 	
 	drawObjectColor(ship2, createSpaceShipMatrix() * glm::translate(glm::vec3(0.f, -0.35f, -0.3f)) * glm::eulerAngleY(3.12f) * glm::scale(glm::vec3(0.006f)), glm::vec3(0.78, 0.78, 0.9));
@@ -152,6 +156,7 @@ void renderScene(GLFWwindow* window)
 	
 	drawObjectColor(sphereContext, glm::scale(glm::vec3(2.f)), glm::vec3(0.9, 0.9, 0.2));
 	
+
 	drawObjectColor(sphereContext, glm::eulerAngleY(-time / 4) * glm::translate(glm::vec3(3.f,0.f,0.f)) * glm::scale(glm::vec3(0.2f)), glm::vec3(1, 0.431, 0.0));
 	drawObjectColor(sphereContext, glm::eulerAngleY(-time/4) * glm::translate(glm::vec3(3.f, 0.f, 0.f)) * glm::eulerAngleY(time) * glm::translate(glm::vec3(0.5f, 0.f, 0.f))  * glm::scale(glm::vec3(0.1f)), glm::vec3(0.f, 0.f, 0.f));
 	drawObjectColor(sphereContext, glm::eulerAngleY(-time / 4) * glm::translate(glm::vec3(3.f, 0.f, 0.f)) * glm::eulerAngleY(-time) * glm::translate(glm::vec3(-0.5f, 0.f, 0.f)) * glm::scale(glm::vec3(0.1f)), glm::vec3(0.f, 0.f, 0.f));
@@ -193,7 +198,7 @@ void renderScene(GLFWwindow* window)
 // "SATURN" ===========================================================================================================================================================================================================================================================
 
 	drawObjectColor(sphereContext, glm::eulerAngleY(-time / 2) * glm::translate(glm::vec3(7.f, 0.f, 0.f)) * glm::scale(glm::vec3(0.8f)), glm::vec3(0.21, 0.7, 0.839));
-	drawObjectColor(sphereContext, glm::eulerAngleY(time / 5) * glm::translate(glm::vec3(9.f, 0.f, 0.f)) * glm::scale(glm::vec3(1.f)), glm::vec3(1, 0.427, 0.83));
+	drawObjectColor(Saturn, glm::eulerAngleY(-time / 5) * glm::translate(glm::vec3(9.f, 0.f, 0.f)) * glm::eulerAngleX(7.f) * glm::scale(glm::vec3(1.f)), glm::vec3(0.5, 0.5, 1));
 	
 	glUseProgram(0);
 	glfwSwapBuffers(window);
@@ -229,6 +234,7 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/rock.obj", asteroida);
 	loadModelToContext("./models/ship2.obj", ship2);
 	loadModelToContext("./models/spaceship.obj", spaceship);
+	loadModelToContext("./models/Saturn.obj", Saturn);
 	printf("'space' -> to go up!");
 	printf("\n'shift' -> to go down!");
 
